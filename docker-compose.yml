@@ -1,0 +1,22 @@
+version: '2'
+services:
+  v2ray:
+    image: v2fly/v2fly-core
+    container_name: v2ray
+    command: v2ray --config=/etc/v2ray/config.json
+    volumes:
+      - ${PWD}/config.json:/etc/v2ray/config.json
+    restart: always
+    networks: 
+      - v2ray
+  cloudflared:
+    image: cloudflare/cloudflared:2021.11.0
+    container_name: cloudflared
+    restart: always
+    networks:
+      - v2ray
+    links:
+      - v2ray
+    command: 'tunnel --url http://v2ray:30001'
+networks:
+  v2ray:
