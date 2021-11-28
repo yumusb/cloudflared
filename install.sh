@@ -47,3 +47,4 @@ httpsurl=$(docker-compose logs cloudflared | grep -oE "https://.*trycloudflare.c
 cloudflareurl=${httpsurl:8}
 basestr=$(echo "{\"add\":\"${cloudflareurl}\",\"aid\":0,\"host\":\"\",\"id\":\"${uid}\",\"net\":\"ws\",\"path\":\"/\",\"port\":443,\"ps\":\"${cloudflareurl}\",\"tls\":\"tls\",\"type\":\"none\",\"v\":2}" | base64 -w0)
 echo "vmess://${basestr}"
+echo "For qrcode: https://cyberchef.eu.org/#recipe=Generate_QR_Code('SVG',2,0,'Low')&input="$(echo vmess://${basestr} | base64 -w0 | tr -d "=")
